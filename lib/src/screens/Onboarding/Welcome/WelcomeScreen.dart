@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_app/src/screens/Onboarding/OnboardingRoutes.dart';
 import 'package:flutter_base_app/src/services/localizations/localizations.dart';
+import 'package:flutter_base_app/src/widgets/LanguagePicker.dart';
 
 class WelcomeScreen extends StatelessWidget {
   build(context) {
     final AppLocalizations localizations = AppLocalizations.of(context);
 
     final theme = Theme.of(context);
-    return Container(
+    return Scaffold(
+        body: Container(
       decoration: BoxDecoration(color: theme.primaryColor),
       child: Center(
         child: Padding(
@@ -61,11 +63,14 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   )),
                 ],
+              ),
+              Row(
+                children: <Widget>[LanguagePicker()],
               )
             ],
           ),
         ),
       ),
-    );
+    ));
   }
 }

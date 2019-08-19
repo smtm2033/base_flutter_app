@@ -8,7 +8,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_base_app/src/blocs/localization/bloc.dart';
 
-class FlutterApp extends StatelessWidget {
+class FlutterApp extends StatefulWidget {
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _FlutterApp state = context.ancestorStateOfType(TypeMatcher<_FlutterApp>());
+    state.setState(() {
+      state.locale = newLocale;
+    });
+  }
+
+  @override
+  _FlutterApp createState() => _FlutterApp();
+}
+
+class _FlutterApp extends State<FlutterApp> {
+  void initState() {
+    super.initState();
+  }
+
+  Locale locale;
   build(_) {
     return AppBlocProviders(child: Builder(builder: (context) {
       final localizationBloc = BlocProvider.of<LocalizationBloc>(context);
@@ -17,9 +34,15 @@ class FlutterApp extends StatelessWidget {
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
-            AppLocalizations.delegate
+            AppLocalizationDelegate()
           ],
-          locale: localizationBloc.currentState.locale,
+          // locale: Locale('en'),
+          localeResolutionCallback: (systemLocale, supportedLocales) {
+            if (this.locale == null || !(this.locale is Locale)) {
+              this.locale = systemLocale;
+            }
+            return this.locale;
+          },
           supportedLocales: AppLocalizations.availableLocalizations
               .map((item) => Locale(item.languageCode)),
           theme: flutterAppTheme,

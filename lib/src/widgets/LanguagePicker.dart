@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_app/src/FlutterApp.dart';
 import 'package:flutter_base_app/src/blocs/localization/bloc.dart';
 import 'package:flutter_base_app/src/blocs/localization/localization_bloc.dart';
 import 'package:flutter_base_app/src/services/localizations/localizations.dart';
@@ -20,6 +21,7 @@ class _LanguagePicker extends State<LanguagePicker> {
       }).toList(),
       onChanged: (item) {
         print(item);
+        FlutterApp.setLocale(context, Locale(item));
         localizationBloc.dispatch(ChangeLocalization(Locale(item)));
       },
     );
